@@ -59,7 +59,7 @@ struct PostCardView: View {
                 if showReplyField {
                     HStack {
                         VStack {
-                            TextField("Write your reply...", text: $replyText)
+                            TextField("Write your reply...", text: $replyText, axis: .vertical)
                                 .textFieldStyle(RoundedBorderTextFieldStyle())
                         }
                         Button(action: {
