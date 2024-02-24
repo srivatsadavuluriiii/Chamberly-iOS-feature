@@ -5,7 +5,9 @@ struct ContentView: View {
     @FocusState var isTextFieldFocused: Bool
     @State private var newCommentText: String = ""
     @State private var replyText = "default"
+    @State private var isLiked: Bool = false
     @State private var selectedCommentIndex: Int?
+    @State var likes: Int = 20
 
     var body: some View {
         ZStack {
@@ -27,17 +29,26 @@ struct ContentView: View {
                 
                 HStack (spacing: 20){
                     HStack(spacing: 5){
-                        Image(systemName: "heart.fill")
-                            .foregroundColor(.red)
+                        Button {
+                            isLiked.toggle()
+                            if isLiked {
+                                likes += 1
+                            } else {
+                                likes -= 1
+                            }
+                        } label: {
+                            Image(systemName: isLiked ? "heart.fill" : "heart")
+                                .foregroundColor(.red)
+                        }
                         
-                        Text("\(messageFieldVM.totalLikes)")
+                        Text("\(likes)")
                             .foregroundColor(.red)
                     }
                     
                     HStack (spacing: 5){
                         Image(systemName: "message")
                             .foregroundColor(Color(#colorLiteral(red: 0.5411589146, green: 0.5411903262, blue: 0.990190804, alpha: 1)))
-                        Text("\(messageFieldVM.replyContent.count)")
+                        Text("\(messageFieldVM.posts.count)")
                             .foregroundColor(Color(#colorLiteral(red: 0.5411589146, green: 0.5411903262, blue: 0.990190804, alpha: 1)))
                     }
                 }
