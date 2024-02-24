@@ -2,38 +2,31 @@ import SwiftUI
 
 struct PostCardView: View {
     @State private var showAllReplies = false
-    @State private var showReplyField = false
     @State private var isLiked: Bool = false
     @Binding var selectedCommentIndex: Int?
     @Binding var post: Post
     @State private var replyText = ""
-    
+    @State private var showReplyField = false // Track if reply field is visible
+
     init(selectedCommentIndex: Binding<Int?>, post: Binding<Post>) {
         self._selectedCommentIndex = selectedCommentIndex
         self._post = post
     }
-    
+
     func onAddReply() {
         if let index = selectedCommentIndex {
             let newReply = Reply(id: UUID(), authorName: "You", replyContent: replyText)
-            if let parentReply = post.comments.element(at: index) {
-                parentReply.replies.append(newReply)
-            } else {
-                post.comments.append(newReply)
-            }
-            // Reset replyText and hide field
+            post.comments.append(newReply) // Add the reply directly to the post comments
             showReplyField = false
             replyText = ""
         }
     }
-    
+
     var body: some View {
         ScrollView {
             VStack(alignment: .leading) {
-                // Parent comment (Post)
                 CommentView(reply: Reply(id: post.id, authorName: post.authorName, replyContent: post.content))
-                
-                // Header comment
+
                 HStack(spacing: 20) {
                     HStack(spacing: 3) {
                         Button {
@@ -49,9 +42,10 @@ struct PostCardView: View {
                         }
                         Text("\(post.totalLikes)")
                     }
-                    
+
                     HStack(spacing: 3) {
                         Button(action: {
+                            selectedCommentIndex = 0
                             showReplyField.toggle()
                         }) {
                             Image(systemName: "message")
@@ -61,18 +55,24 @@ struct PostCardView: View {
                     }
                 }
                 .padding(.horizontal, 20)
-                
-                // Reply text field
+
                 if showReplyField {
-                    TextField("Write your reply...", text: $replyText)
-                        .onSubmit {
+                    HStack {
+                        TextField("Write your reply...", text: $replyText)
+                            .textFieldStyle(RoundedBorderTextFieldStyle())
+                            .padding(.trailing, 10)
+                            .frame(maxWidth: .infinity)
+
+                        Button(action: {
                             onAddReply()
+                        }) {
+                            Image(systemName: "paperplane.fill")
+                                .foregroundColor(.blue)
                         }
-                        .textFieldStyle(RoundedBorderTextFieldStyle()) // Add rounded border style
-                        .padding(.horizontal, 20)
+                    }
+                    .padding(.horizontal, 20)
                 }
-                
-                // Replies
+
                 if showAllReplies {
                     CommentsView(
                         comments: post.comments,

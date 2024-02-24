@@ -1,4 +1,5 @@
 import SwiftUI
+
 struct ContentView: View {
     @EnvironmentObject var messageFieldVM: MessageFieldViewModel
     @FocusState var isTextFieldFocused: Bool
@@ -40,13 +41,13 @@ struct ContentView: View {
                             .foregroundColor(Color(#colorLiteral(red: 0.5411589146, green: 0.5411903262, blue: 0.990190804, alpha: 1)))
                     }
                 }
+                
                 ScrollView(.vertical, showsIndicators: false) {
                     ForEach(Array(messageFieldVM.posts.values), id: \.self) { post in
                         PostCardView(selectedCommentIndex: $selectedCommentIndex, post: .constant(post))
                             .padding(.horizontal)
                             .padding(.vertical, 5)
                             .onTapGesture {
-                                // Update selectedCommentIndex or replyText if needed
                                 selectedCommentIndex = 1 // Example update
                                 replyText = post.authorName // Example update
                             }
@@ -86,6 +87,10 @@ struct ContentView: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView().environmentObject(MessageFieldViewModel())
+        let viewModel = MessageFieldViewModel()
+        viewModel.setupPosts() // Setup default posts
+        
+        return ContentView()
+            .environmentObject(viewModel)
     }
 }

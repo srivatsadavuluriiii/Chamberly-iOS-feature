@@ -1,10 +1,3 @@
-//
-//  Post.swift
-//  task 1
-//
-//  Created by srivatsa davuluri on 02/02/24.
-//
-
 import Foundation
 
 class Post: Identifiable, ObservableObject, Hashable {
@@ -25,13 +18,12 @@ class Post: Identifiable, ObservableObject, Hashable {
     init(content: String, authorName: String, comments: [Reply] = [], totalLikes: Int = 0) {
         self.content = content
         self.authorName = "Hello"
-        self.comments = comments.sorted(by: { $0.id.uuidString < $1.id.uuidString })
+        self.comments = comments
         self.totalLikes = totalLikes
     }
 
     func addReply(text: String) {
         comments.append(Reply(id: UUID(), authorName: "You", replyContent: text))
-        comments.sort(by: { $0.id.uuidString < $1.id.uuidString })
     }
 }
 
@@ -54,4 +46,3 @@ class Reply: Identifiable {
         self.replies = replies
     }
 }
-

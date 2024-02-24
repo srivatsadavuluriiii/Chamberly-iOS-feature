@@ -8,6 +8,11 @@ class MessageFieldViewModel: ObservableObject {
     @Published var isFocused: Bool = false
     @Published var posts: [String: Post] = [:]
     
+    init() {
+        // Add default values and setup calls here
+        setupPosts()
+    }
+    
     func addNewReply(authorName: String) {
         guard !text.isEmpty else { return }
         let postID = UUID().uuidString
