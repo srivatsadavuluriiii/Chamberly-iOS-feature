@@ -58,12 +58,13 @@ struct PostCardView: View {
 
                 if showReplyField {
                     HStack {
-                        TextField("Write your reply...", text: $replyText)
-                            .textFieldStyle(RoundedBorderTextFieldStyle())
-                            .padding(.trailing, 10)
-                            .frame(maxWidth: .infinity)
-
+                        VStack{
+                            TextField("Write your reply...", text: $replyText,axis: .vertical)
+                                
+                                .textFieldStyle(RoundedBorderTextFieldStyle())
+                        }
                         Button(action: {
+                            
                             onAddReply()
                         }) {
                             Image(systemName: "paperplane.fill")

@@ -65,7 +65,7 @@ struct ContentView: View {
                                 .foregroundColor(Color(#colorLiteral(red: 0.4784063697, green: 0.4784510732, blue: 1, alpha: 1)))
                                 .padding(.horizontal, 20)
                             
-                            TextField("Reply to \(replyText)", text: $messageFieldVM.text)
+                            TextField("Reply to \(replyText)", text: $messageFieldVM.text, axis: .vertical)
                                 .opacity(0.6)
                                 .padding(.horizontal)
                                 .focused($isTextFieldFocused)
