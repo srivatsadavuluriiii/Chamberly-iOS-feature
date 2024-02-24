@@ -58,13 +58,11 @@ struct PostCardView: View {
 
                 if showReplyField {
                     HStack {
-                        VStack{
-                            TextField("Write your reply...", text: $replyText,axis: .vertical)
-                                
+                        VStack {
+                            TextField("Write your reply...", text: $replyText)
                                 .textFieldStyle(RoundedBorderTextFieldStyle())
                         }
                         Button(action: {
-                            
                             onAddReply()
                         }) {
                             Image(systemName: "paperplane.fill")
@@ -74,21 +72,25 @@ struct PostCardView: View {
                     .padding(.horizontal, 20)
                 }
 
-                if showAllReplies {
-                    CommentsView(
-                        comments: post.comments,
-                        onReply: { replyText in
-                            let newReply = Reply(id: UUID(), authorName: "You", replyContent: replyText)
-                            post.comments.append(newReply)
-                        },
-                        showAllReplies: $showAllReplies
-                    )
-                    .padding(.bottom, 20)
-                } else {
-                    Button(action: { showAllReplies.toggle() }) {
-                        Text("Show all replies")
-                            .padding()
-                            .foregroundColor(Color(#colorLiteral(red: 0.5411589146, green: 0.5411903262, blue: 0.990190804, alpha: 1)))
+                if !post.comments.isEmpty {
+                    if showAllReplies {
+                        CommentsView(
+                            comments: post.comments,
+                            onReply: { replyText in
+                                let newReply = Reply(id: UUID(), authorName: "You", replyContent: replyText)
+                                post.comments.append(newReply)
+                            },
+                            showAllReplies: $showAllReplies
+                        )
+                        .padding(.bottom, 20)
+                    } else {
+                        if post.comments.count > 0 && !showAllReplies {
+                            Button(action: { showAllReplies.toggle() }) {
+                                Text("Show all replies")
+                                    .padding()
+                                    .foregroundColor(Color(#colorLiteral(red: 0.5411589146, green: 0.5411903262, blue: 0.990190804, alpha: 1)))
+                            }
+                        }
                     }
                 }
             }
