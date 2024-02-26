@@ -56,11 +56,26 @@ struct PostCardView: View {
                 .padding(.horizontal, 20)
 
                 if showReplyField {
-                    HStack {
-                        VStack {
-                            TextField("Write your reply...", text: $replyText, axis: .vertical)
-                                .textFieldStyle(RoundedBorderTextFieldStyle())
+                    HStack (spacing: 30) {
+                        ScrollView{
+                            RoundedRectangle(cornerRadius: 15)
+                                .frame(width: .infinity, height: 50)
+                                .padding(.horizontal,5)
+                                .padding(.vertical,15)
+                                .foregroundColor(.white)
+                                .shadow(color: Color(#colorLiteral(red: 0.5411589146, green: 0.5411903262, blue: 0.990190804, alpha: 1)), radius: 1)
+                                .overlay(
+                                TextField("Write your reply...", text: $replyText, axis: .vertical)
+                                    .multilineTextAlignment(.leading)
+                                    .lineLimit(2)
+                                    .padding(.horizontal,10)
+                                    .foregroundColor(.black)
+                                    
+                                    
+                                )
+                                
                         }
+                        
                         Button(action: {
                             onAddReply()
                         }) {

@@ -24,7 +24,7 @@ struct CommentView: View {
             if numberOfWords(in: reply.replyContent) > 8 {
                 if isSelected {
                     Text(reply.replyContent)
-                        .font(.footnote)
+                        .font(.body)
                     Button(action: {
                         isSelected.toggle()
                     }) {
@@ -33,8 +33,9 @@ struct CommentView: View {
                             
                     }
                 } else {
-                    Text(String(reply.replyContent.split(separator: " ").prefix(5).joined(separator: " ")))
-                        .font(.footnote)
+                    Text(String(reply.replyContent.split(separator: " ").prefix(8).joined(separator: " ")))
+                        .font(.body)
+                        
                     Button(action: {
                         isSelected.toggle()
                     }) {
@@ -45,7 +46,7 @@ struct CommentView: View {
                 }
             } else {
                 Text(reply.replyContent)
-                    .font(.footnote)
+                    .font(.body)
             }
             
             if !reply.replies.isEmpty {
@@ -94,11 +95,11 @@ struct CommentsView: View {
 
     var body: some View {
         VStack(spacing: 5) {
-            ForEach(showAllReplies ? comments : Array(comments.prefix(2))) { reply in
+            ForEach(showAllReplies ? comments : Array(comments.prefix(10))) { reply in
                 CommentView(reply: reply)
                     .padding(.horizontal)
             }
-            if comments.count > 2 {
+            if comments.count > 10 {
                 Button(action: {
                     withAnimation {
                         showAllReplies.toggle()
@@ -120,11 +121,9 @@ struct CommentsView: View {
 
 
 
-
-
 struct CommentView_Previews: PreviewProvider {
     static var previews: some View {
-        CommentView(reply: Reply(id: UUID(), authorName: "Tester", replyContent: "hello", likeCount: 20, isLiked: true, replies: [Reply(authorName: "Srivatsa", replyContent: "hi, MY NAME IS SRIVATSA DAVULURI")]))
+        CommentView(reply: Reply(id: UUID(), authorName: "Tester", replyContent: "hello", likeCount: 20, isLiked: true, replies: [Reply(authorName: "Srivatsa", replyContent: "HI, MY NAME IS SRIVATSA DAVULURI")]))
 
     }
 }

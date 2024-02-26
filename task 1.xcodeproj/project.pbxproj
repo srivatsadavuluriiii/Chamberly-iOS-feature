@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		0856FF2E2B87C1CB00D1CEAD /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0856FF2D2B87C1CB00D1CEAD /* ContentView.swift */; };
-		0898B5D82B8A627200A1A9DC /* array.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0898B5D72B8A627200A1A9DC /* array.swift */; };
 		577A82FB2B6113FA00E9023D /* task_1App.swift in Sources */ = {isa = PBXBuildFile; fileRef = 577A82F92B6113FA00E9023D /* task_1App.swift */; };
 		578CE3852B56DBE80016F755 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 578CE3842B56DBE80016F755 /* Assets.xcassets */; };
 		578CE3882B56DBE80016F755 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 578CE3872B56DBE80016F755 /* Preview Assets.xcassets */; };
@@ -22,7 +21,6 @@
 
 /* Begin PBXFileReference section */
 		0856FF2D2B87C1CB00D1CEAD /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
-		0898B5D72B8A627200A1A9DC /* array.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = array.swift; sourceTree = "<group>"; };
 		577A82F92B6113FA00E9023D /* task_1App.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = task_1App.swift; sourceTree = "<group>"; };
 		578CE37D2B56DBE70016F755 /* task 1.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "task 1.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		578CE3842B56DBE80016F755 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -72,7 +70,6 @@
 				F936B2862B8270D200104D6C /* PostCardModifier.swift */,
 				F978EBC62B6D06EF00236ECC /* Post.swift */,
 				578CE3922B57D3590016F755 /* PostCardView.swift */,
-				0898B5D72B8A627200A1A9DC /* array.swift */,
 				578CE3942B57DC540016F755 /* MessageFieldViewModel.swift */,
 				578CE3842B56DBE80016F755 /* Assets.xcassets */,
 				578CE3862B56DBE80016F755 /* Preview Content */,
@@ -165,7 +162,6 @@
 				578CE3932B57D3590016F755 /* PostCardView.swift in Sources */,
 				F978EBC72B6D06EF00236ECC /* Post.swift in Sources */,
 				F978EBCB2B6D077600236ECC /* CommentView.swift in Sources */,
-				0898B5D82B8A627200A1A9DC /* array.swift in Sources */,
 				578CE3952B57DC540016F755 /* MessageFieldViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
