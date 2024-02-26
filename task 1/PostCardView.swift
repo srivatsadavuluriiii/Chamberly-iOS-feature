@@ -84,16 +84,25 @@ struct PostCardView: View {
                         )
                         .padding(.bottom, 20)
                     } else {
-                        if post.comments.count > 0 && !showAllReplies {
-                            Button(action: { showAllReplies.toggle() }) {
-                                Text("Show all replies")
-                                    .padding()
-                                    .foregroundColor(Color(#colorLiteral(red: 0.5411589146, green: 0.5411903262, blue: 0.990190804, alpha: 1)))
-                            }
+                        Button(action: { showAllReplies.toggle() }) {
+                            Text("Show all replies")
+                                .padding(.top, 10.0)
+                                .padding(.leading, 20.0)
+                                .foregroundColor(Color(#colorLiteral(red: 0.5411589146, green: 0.5411903262, blue: 0.990190804, alpha: 1)))
                         }
                     }
                 }
+                
+                if !post.comments.isEmpty && showAllReplies {
+                    Button(action: { showAllReplies.toggle() }) {
+                        Text("Hide all replies")
+                            .padding(.leading, 20.0)
+                            .padding(.top, 10.0)
+                            .foregroundColor(Color(#colorLiteral(red: 0.5411589146, green: 0.5411903262, blue: 0.990190804, alpha: 1)))
+                    }
+                }
             }
+            .padding(.init(top: 10, leading: 20, bottom: 10, trailing: 20))
             .background(Color.white)
             .cornerRadius(20)
             .shadow(color: .gray, radius: 0.5)

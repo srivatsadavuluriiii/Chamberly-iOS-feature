@@ -4,32 +4,55 @@ struct CommentView: View {
     let isPost: Bool = false
     let reply: Reply
     @State private var newReplyText = ""
-    
+
     var body: some View {
-        VStack(alignment: .leading) {
+        VStack(alignment: .leading, spacing: 10) {
             HStack {
                 Text(reply.authorName)
                     .font(.headline)
                 Spacer()
                 Menu {
                     Button("Report User") {
-
+                        // Action for reporting user
                     }
                     Button("Report Message") {
-                        
+                        // Action for reporting message
                     }
                 } label: {
                     Image("dots")
                 }
-
             }
-            Text(reply.replyContent)
-                .font(.footnote)
+            if numberOfWords(in: reply.replyContent) > 5 {
+                if isSelected {
+                    Text(reply.replyContent)
+                        .font(.footnote)
+                    Button(action: {
+                        isSelected.toggle()
+                    }) {
+                        Text("View Less")
+                            .foregroundColor(Color(#colorLiteral(red: 0.4784063697, green: 0.4784510732, blue: 1, alpha: 1)))
+                            
+                    }
+                } else {
+                    Text(String(reply.replyContent.split(separator: " ").prefix(5).joined(separator: " ")))
+                        .font(.footnote)
+                    Button(action: {
+                        isSelected.toggle()
+                    }) {
+                        Text("View More")
+                            .foregroundColor(Color(#colorLiteral(red: 0.4784063697, green: 0.4784510732, blue: 1, alpha: 1)))
+                            
+                    }
+                }
+            } else {
+                Text(reply.replyContent)
+                    .font(.footnote)
+            }
             
             if !reply.replies.isEmpty {
                 ForEach(reply.replies) { childReply in
                     CommentView(reply: childReply)
-                        .padding(.horizontal)
+                        .padding(.leading, 20) // Adjust padding for nested replies
                 }
             }
             
@@ -51,26 +74,14 @@ struct CommentView: View {
         }
         .padding(15)
     }
-    
+
+    func numberOfWords(in text: String) -> Int {
+        let words = text.split(separator: " ")
+        return words.count
+    }
+
     func onReplyAppended(text: String) {
         reply.replies.append(Reply(id: UUID(), authorName: "You", replyContent: text))
-    }
-}
-
-struct ModifyRepliesView: View {
-    @State var mutableReply: Reply
-    var onReply: (String) -> Void
-    
-    var body: some View {
-        CommentsView(comments: mutableReply.replies, onReply: onReply, showAllReplies: .constant(true))
-            .onAppear {
-                self.mutableReply = self.mutableReply
-            }
-    }
-
-    init(reply: Reply, onReply: @escaping (String) -> Void) {
-        self._mutableReply = State(initialValue: reply)
-        self.onReply = onReply
     }
 }
 
@@ -78,17 +89,21 @@ struct CommentsView: View {
     let comments: [Reply]
     let onReply: (String) -> Void
     @Binding var showAllReplies: Bool
-    
+
     var body: some View {
         VStack(spacing: 5) {
             ForEach(showAllReplies ? comments : Array(comments.prefix(2))) { reply in
                 CommentView(reply: reply)
                     .padding(.horizontal)
             }
-            if comments.count>0  {
-                Button(action: { showAllReplies.toggle() }) {
+            if comments.count > 2 {
+                Button(action: {
+                    withAnimation {
+                        showAllReplies.toggle()
+                    }
+                }) {
                     Text(showAllReplies ? "Hide all replies" : "Show all replies")
-                        .foregroundColor(Color(#colorLiteral(red: 0.5411589146, green: 0.5411903262, blue: 0.990190804, alpha: 1)))
+                        .foregroundColor(Color.blue)
                 }
             }
         }
