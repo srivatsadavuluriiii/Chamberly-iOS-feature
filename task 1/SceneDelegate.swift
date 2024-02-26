@@ -1,10 +1,3 @@
-//
-//  SceneDelegate.swift
-//  task 1
-//
-//  Created by srivatsa davuluri on 18/02/24.
-//
-
 import SwiftUI
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {

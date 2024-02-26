@@ -9,7 +9,6 @@ class MessageFieldViewModel: ObservableObject {
     @Published var posts: [String: Post] = [:]
     
     init() {
-        // Add default values and setup calls here
         setupPosts()
     }
     

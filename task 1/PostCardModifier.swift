@@ -1,9 +1,3 @@
-//
-//  PostCardModifier.swift
-//  task 1
-//
-//  Created by srivatsa davuluri on 18/02/24.
-//
 import SwiftUI
 
 
@@ -19,8 +13,7 @@ struct PostCardModifier: ViewModifier {
                 if isReplying {
                     TextField("Add a reply", text: $replyText)
                         .onSubmit {
-                            _ = Reply(authorName: "Aditya Chheda", replyContent: replyText)
-                            // Update model with reply
+                            _ = Reply(authorName: "Srivatsa", replyContent: replyText)
                             isReplying = false
                             replyText = ""
                         }

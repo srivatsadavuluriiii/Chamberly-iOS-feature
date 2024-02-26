@@ -13,16 +13,15 @@ struct CommentView: View {
                 Spacer()
                 Menu {
                     Button("Report User") {
-                        // Action for reporting user
+
                     }
                     Button("Report Message") {
-                        // Action for reporting message
                     }
                 } label: {
                     Image("dots")
                 }
             }
-            if numberOfWords(in: reply.replyContent) > 5 {
+            if numberOfWords(in: reply.replyContent) > 8 {
                 if isSelected {
                     Text(reply.replyContent)
                         .font(.footnote)
@@ -52,7 +51,7 @@ struct CommentView: View {
             if !reply.replies.isEmpty {
                 ForEach(reply.replies) { childReply in
                     CommentView(reply: childReply)
-                        .padding(.leading, 20) // Adjust padding for nested replies
+                        .padding(.leading, 20)
                 }
             }
             
@@ -85,6 +84,9 @@ struct CommentView: View {
     }
 }
 
+
+
+
 struct CommentsView: View {
     let comments: [Reply]
     let onReply: (String) -> Void
@@ -110,9 +112,19 @@ struct CommentsView: View {
     }
 }
 
+
+
+
+
+
+
+
+
+
+
 struct CommentView_Previews: PreviewProvider {
     static var previews: some View {
-        CommentView(reply: Reply(id: UUID(), authorName: "Tester", replyContent: "hello", likeCount: 20, isLiked: true, replies: [Reply(authorName: "Srivatsa", replyContent: "hi")]))
+        CommentView(reply: Reply(id: UUID(), authorName: "Tester", replyContent: "hello", likeCount: 20, isLiked: true, replies: [Reply(authorName: "Srivatsa", replyContent: "hi, MY NAME IS SRIVATSA DAVULURI")]))
 
     }
 }

@@ -59,8 +59,8 @@ struct ContentView: View {
                             .padding(.horizontal)
                             .padding(.vertical, 5)
                             .onTapGesture {
-                                selectedCommentIndex = 1 // Example update
-                                replyText = post.authorName // Example update
+                                selectedCommentIndex = 1
+                                replyText = post.authorName 
                             }
                     }
                 }
@@ -99,7 +99,7 @@ struct ContentView: View {
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         let viewModel = MessageFieldViewModel()
-        viewModel.setupPosts() // Setup default posts
+        viewModel.setupPosts()
         
         return ContentView()
             .environmentObject(viewModel)

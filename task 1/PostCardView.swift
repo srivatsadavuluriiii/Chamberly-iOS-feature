@@ -6,8 +6,7 @@ struct PostCardView: View {
     @Binding var selectedCommentIndex: Int?
     @Binding var post: Post
     @State private var replyText = ""
-    @State private var showReplyField = false // Track if reply field is visible
-
+    @State private var showReplyField = false
     init(selectedCommentIndex: Binding<Int?>, post: Binding<Post>) {
         self._selectedCommentIndex = selectedCommentIndex
         self._post = post
@@ -16,7 +15,7 @@ struct PostCardView: View {
     func onAddReply() {
         if let index = selectedCommentIndex {
             let newReply = Reply(id: UUID(), authorName: "You", replyContent: replyText)
-            post.comments.append(newReply) // Add the reply directly to the post comments
+            post.comments.append(newReply) 
             showReplyField = false
             replyText = ""
         }
@@ -49,7 +48,7 @@ struct PostCardView: View {
                             showReplyField.toggle()
                         }) {
                             Image(systemName: "message")
-                                .foregroundColor(Color.blue)
+                                .foregroundColor(Color(#colorLiteral(red: 0.5411589146, green: 0.5411903262, blue: 0.990190804, alpha: 1)))
                         }
                         Text("\(post.comments.count)")
                     }
@@ -66,7 +65,7 @@ struct PostCardView: View {
                             onAddReply()
                         }) {
                             Image(systemName: "paperplane.fill")
-                                .foregroundColor(.blue)
+                                .foregroundColor(Color(#colorLiteral(red: 0.5411589146, green: 0.5411903262, blue: 0.990190804, alpha: 1)))
                         }
                     }
                     .padding(.horizontal, 20)
