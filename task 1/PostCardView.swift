@@ -23,7 +23,7 @@ struct PostCardView: View {
 
     var body: some View {
         VStack {
-            VStack(alignment: .leading) {
+            VStack(alignment: .leading, spacing: -10) {
                 CommentView(reply: Reply(id: post.id, authorName: post.authorName, replyContent: post.content))
 
                 HStack(spacing: 20) {
@@ -80,6 +80,7 @@ struct PostCardView: View {
                         }
                     }
                     .padding(.horizontal, 20)
+                    .padding(.vertical, 12)
                 }
 
                 if !post.comments.isEmpty {
