@@ -21,9 +21,8 @@ struct PostCardView: View {
             replyText = ""
         }
     }
-
     var body: some View {
-        ScrollView {
+        VStack {
             VStack(alignment: .leading) {
                 CommentView(reply: Reply(id: post.id, authorName: post.authorName, replyContent: post.content))
 

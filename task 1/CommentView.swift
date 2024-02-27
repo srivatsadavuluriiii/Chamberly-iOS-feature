@@ -96,16 +96,7 @@ struct CommentsView: View {
                 CommentView(reply: reply)
                     .padding(.horizontal)
             }
-            if comments.count > 2 {
-                Button(action: {
-                    withAnimation {
-                        showAllReplies.toggle()
-                    }
-                }) {
-                    Text(showAllReplies ? "Hide all replies" : "Show all replies")
-                        .foregroundColor(Color.blue)
-                }
-            }
+    
         }
     }
 }
