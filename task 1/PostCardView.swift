@@ -13,7 +13,7 @@ struct PostCardView: View {
     }
 
     func onAddReply() {
-        if let index = selectedCommentIndex {
+        if selectedCommentIndex != nil {
             let newReply = Reply(id: UUID(), authorName: "You", replyContent: replyText)
             post.comments.append(newReply) 
             showReplyField = false
@@ -22,7 +22,7 @@ struct PostCardView: View {
     }
 
     var body: some View {
-        ScrollView {
+        VStack {
             VStack(alignment: .leading) {
                 CommentView(reply: Reply(id: post.id, authorName: post.authorName, replyContent: post.content))
 
@@ -59,7 +59,7 @@ struct PostCardView: View {
                     HStack (spacing: 30) {
                         ScrollView{
                             RoundedRectangle(cornerRadius: 15)
-                                .frame(width: .infinity, height: 50)
+                                .frame(width: 175, height: 50)
                                 .padding(.horizontal,5)
                                 .padding(.vertical,15)
                                 .foregroundColor(.white)
@@ -70,12 +70,8 @@ struct PostCardView: View {
                                     .lineLimit(2)
                                     .padding(.horizontal,10)
                                     .foregroundColor(.black)
-                                    
-                                    
                                 )
-                                
                         }
-                        
                         Button(action: {
                             onAddReply()
                         }) {
@@ -104,15 +100,6 @@ struct PostCardView: View {
                                 .padding(.leading, 20.0)
                                 .foregroundColor(Color(#colorLiteral(red: 0.5411589146, green: 0.5411903262, blue: 0.990190804, alpha: 1)))
                         }
-                    }
-                }
-                
-                if !post.comments.isEmpty && showAllReplies {
-                    Button(action: { showAllReplies.toggle() }) {
-                        Text("Hide all replies")
-                            .padding(.leading, 20.0)
-                            .padding(.top, 10.0)
-                            .foregroundColor(Color(#colorLiteral(red: 0.5411589146, green: 0.5411903262, blue: 0.990190804, alpha: 1)))
                     }
                 }
             }

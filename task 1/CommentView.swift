@@ -95,18 +95,18 @@ struct CommentsView: View {
 
     var body: some View {
         VStack(spacing: 5) {
-            ForEach(showAllReplies ? comments : Array(comments.prefix(10))) { reply in
+            ForEach(showAllReplies ? comments : Array(comments.prefix(2))) { reply in
                 CommentView(reply: reply)
                     .padding(.horizontal)
             }
-            if comments.count > 10 {
+            if comments.count > 2 {
                 Button(action: {
                     withAnimation {
                         showAllReplies.toggle()
                     }
                 }) {
                     Text(showAllReplies ? "Hide all replies" : "Show all replies")
-                        .foregroundColor(Color.blue)
+                        .foregroundColor(Color(#colorLiteral(red: 0.5411589146, green: 0.5411903262, blue: 0.990190804, alpha: 1)))
                 }
             }
         }
