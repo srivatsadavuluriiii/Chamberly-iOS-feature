@@ -40,7 +40,25 @@ This project, developed in Swift, introduces a feature set for commenting and re
 
 To run the project locally, follow these steps:
 
-1. Clone the repository:
+1. Clone the repository
 
 ```bash
 git clone https://github.com/srivatsadavuluriiii/Chamberly-iOS-feature.git
+```
+
+2. Open the project in Xcode.
+
+3. Configure any necessary backend or authentication settings, if applicable.
+
+4. Build and run the project on a simulator or a physical device.
+
+
+## Contributing
+Contributions are welcome! If you'd like to contribute to the project, please follow these guidelines:
+
+1. Fork the repository.
+2. Create a new branch for your feature or bug fix.
+3. Make your changes and ensure they are well-tested.
+4. Commit your changes with clear and descriptive commit messages.
+5. Push your changes to your fork.
+6. Submit a pull request to the main repository.
