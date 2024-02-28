@@ -1,3 +1,4 @@
+
 import SwiftUI
 
 struct PostCardView: View {
@@ -15,7 +16,7 @@ struct PostCardView: View {
     func onAddReply() {
         if selectedCommentIndex != nil {
             let newReply = Reply(id: UUID(), authorName: "You", replyContent: replyText)
-            post.comments.append(newReply) 
+            post.comments.append(newReply)
             showReplyField = false
             replyText = ""
         }
@@ -53,8 +54,11 @@ struct PostCardView: View {
                         Text("\(post.comments.count)")
                     }
                 }
-                .padding(.horizontal, 20)
+                .padding(.horizontal, 12)
+                .padding(.vertical, 12)
 
+                
+                
                 if showReplyField {
                     HStack (spacing: 30) {
                         ScrollView{
@@ -80,7 +84,6 @@ struct PostCardView: View {
                         }
                     }
                     .padding(.horizontal, 20)
-                    .padding(.vertical, 12)
                 }
 
                 if !post.comments.isEmpty {
@@ -119,3 +122,4 @@ struct PostCardView_Previews: PreviewProvider {
         return PostCardView(selectedCommentIndex: selectedCommentIndex, post: .constant(post))
     }
 }
+
