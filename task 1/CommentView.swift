@@ -114,16 +114,13 @@ struct CommentsView: View {
 }
 
 
-
-
-
-
-
-
-
 struct CommentView_Previews: PreviewProvider {
     static var previews: some View {
         CommentView(reply: Reply(id: UUID(), authorName: "Tester", replyContent: "hello", likeCount: 20, isLiked: true, replies: [Reply(authorName: "Srivatsa", replyContent: "HI, MY NAME IS SRIVATSA DAVULURI")]))
 
     }
 }
+
+
+
+
