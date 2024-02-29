@@ -1,10 +1,19 @@
 import SwiftUI
+
 struct CommentView: View {
     @State private var isSelected: Bool = false
     let isPost: Bool = false
     let reply: Reply
     @State private var newReplyText = ""
-
+    @State private var isLiked: Bool = false
+    @State private var likes: Int
+    
+    init(reply: Reply) {
+        self.reply = reply
+        _likes = State(initialValue: reply.likeCount)
+        _isLiked = State(initialValue: reply.isLiked)
+    }
+    
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
             HStack {
@@ -21,7 +30,7 @@ struct CommentView: View {
                     Image("dots")
                 }
             }
-            if numberOfWords(in: reply.replyContent) > 8 {
+            if numberOfWords(in: reply.replyContent) > 12 {
                 if isSelected {
                     Text(reply.replyContent)
                         .font(.body)
@@ -48,6 +57,23 @@ struct CommentView: View {
                 Text(reply.replyContent)
                     .font(.body)
             }
+            
+            HStack {
+                Button(action: {
+                    isLiked.toggle()
+                    if isLiked {
+                        likes += 1
+                    } else {
+                        likes -= 1
+                    }
+                }) {
+                    Image(systemName: isLiked ? "heart.fill" : "heart")
+                        .foregroundColor(.red)
+                }
+                Text("\(likes) likes")
+                    .foregroundColor(.secondary)
+            }
+            .padding(.top, 8)
             
             if !reply.replies.isEmpty {
                 ForEach(reply.replies) { childReply in
@@ -79,14 +105,14 @@ struct CommentView: View {
         let words = text.split(separator: " ")
         return words.count
     }
-
+    
     func onReplyAppended(text: String) {
-        reply.replies.append(Reply(id: UUID(), authorName: "You", replyContent: text))
+        let newReply = Reply(authorName: "You", replyContent: text)
+        // Insert the new reply at the beginning of the replies array
+        reply.replies.insert(newReply, at: 0)
     }
+
 }
-
-
-
 
 struct CommentsView: View {
     let comments: [Reply]
@@ -99,7 +125,7 @@ struct CommentsView: View {
                 CommentView(reply: reply)
                     .padding(.horizontal)
             }
-            if comments.count > 2 {
+            if comments.count > 0 {
                 Button(action: {
                     withAnimation {
                         showAllReplies.toggle()
@@ -113,14 +139,8 @@ struct CommentsView: View {
     }
 }
 
-
 struct CommentView_Previews: PreviewProvider {
     static var previews: some View {
-        CommentView(reply: Reply(id: UUID(), authorName: "Tester", replyContent: "hello", likeCount: 20, isLiked: true, replies: [Reply(authorName: "Srivatsa", replyContent: "HI, MY NAME IS SRIVATSA DAVULURI")]))
-
+        CommentView(reply: Reply(authorName: "Tester", replyContent: "hello", likeCount: 20, isLiked: true, replies: [Reply(authorName: "Srivatsa", replyContent: "HI, MY NAME IS SRIVATSA DAVULURI")]))
     }
 }
-
-
-
-

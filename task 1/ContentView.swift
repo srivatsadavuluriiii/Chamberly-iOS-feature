@@ -54,13 +54,13 @@ struct ContentView: View {
                 }
                 
                 ScrollView(.vertical, showsIndicators: false) {
-                    ForEach(Array(messageFieldVM.posts.values), id: \.self) { post in
+                    ForEach(Array(messageFieldVM.posts.values), id: \.id) { post in
                         PostCardView(selectedCommentIndex: $selectedCommentIndex, post: .constant(post))
                             .padding(.horizontal)
                             .padding(.vertical, 5)
                             .onTapGesture {
                                 selectedCommentIndex = 1
-                                replyText = post.authorName 
+                                replyText = post.authorName
                             }
                     }
                 }
@@ -94,7 +94,6 @@ struct ContentView: View {
         .onTapGesture { isTextFieldFocused = false}
     }
 }
-
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {

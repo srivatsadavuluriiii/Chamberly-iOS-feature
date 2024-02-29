@@ -1,6 +1,5 @@
 
 import SwiftUI
-
 struct PostCardView: View {
     @State private var showAllReplies = false
     @State private var isLiked: Bool = false
@@ -8,24 +7,11 @@ struct PostCardView: View {
     @Binding var post: Post
     @State private var replyText = ""
     @State private var showReplyField = false
-    init(selectedCommentIndex: Binding<Int?>, post: Binding<Post>) {
-        self._selectedCommentIndex = selectedCommentIndex
-        self._post = post
-    }
-
-    func onAddReply() {
-        if selectedCommentIndex != nil {
-            let newReply = Reply(id: UUID(), authorName: "You", replyContent: replyText)
-            post.comments.append(newReply)
-            showReplyField = false
-            replyText = ""
-        }
-    }
 
     var body: some View {
         VStack {
             VStack(alignment: .leading, spacing: -10) {
-                CommentView(reply: Reply(id: post.id, authorName: post.authorName, replyContent: post.content))
+                CommentView(reply: Reply(authorName: post.authorName, replyContent: post.content))
 
                 HStack(spacing: 20) {
                     HStack(spacing: 3) {
@@ -57,8 +43,6 @@ struct PostCardView: View {
                 .padding(.horizontal, 12)
                 .padding(.vertical, 12)
 
-                
-                
                 if showReplyField {
                     HStack (spacing: 30) {
                         ScrollView{
@@ -69,11 +53,11 @@ struct PostCardView: View {
                                 .foregroundColor(.white)
                                 .shadow(color: Color(#colorLiteral(red: 0.5411589146, green: 0.5411903262, blue: 0.990190804, alpha: 1)), radius: 1)
                                 .overlay(
-                                TextField("Write your reply...", text: $replyText, axis: .vertical)
-                                    .multilineTextAlignment(.leading)
-                                    .lineLimit(2)
-                                    .padding(.horizontal,10)
-                                    .foregroundColor(.black)
+                                    TextField("Write your reply...", text: $replyText, axis: .vertical)
+                                        .multilineTextAlignment(.leading)
+                                        .lineLimit(2)
+                                        .padding(.horizontal,10)
+                                        .foregroundColor(.black)
                                 )
                         }
                         Button(action: {
@@ -89,9 +73,9 @@ struct PostCardView: View {
                 if !post.comments.isEmpty {
                     if showAllReplies {
                         CommentsView(
-                            comments: post.comments,
+                            comments: post.comments.sorted(by: { $0.id < $1.id }), // Sort comments by ID
                             onReply: { replyText in
-                                let newReply = Reply(id: UUID(), authorName: "You", replyContent: replyText)
+                                let newReply = Reply(authorName: "You", replyContent: replyText)
                                 post.comments.append(newReply)
                             },
                             showAllReplies: $showAllReplies
@@ -113,7 +97,18 @@ struct PostCardView: View {
             .shadow(color: .gray, radius: 0.5)
         }
     }
+
+    func onAddReply() {
+        if selectedCommentIndex != nil {
+            let newReply = Reply(authorName: "You", replyContent: replyText)
+            post.comments.append(newReply)
+            showReplyField = false
+            replyText = ""
+        }
+    }
 }
+
+
 
 struct PostCardView_Previews: PreviewProvider {
     static var previews: some View {
