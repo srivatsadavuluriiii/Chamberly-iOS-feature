@@ -26,6 +26,12 @@ struct CommentView: View {
                     }
                     Button("Report Message") {
                     }
+                    Button(action: {
+                        UIPasteboard.general.string = reply.replyContent
+                            }) {
+                                Text("Copy")
+                        
+                    }
                 } label: {
                     Image("dots")
                 }
