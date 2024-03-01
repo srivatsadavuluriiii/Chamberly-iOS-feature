@@ -1,32 +1,25 @@
-
 import SwiftUI
 
 struct PostCardView: View {
     @State private var showAllReplies = false
     @State private var isLiked: Bool = false
-    @Binding var selectedCommentIndex: Int?
     @Binding var post: Post
     @State private var replyText = ""
     @State private var showReplyField = false
-    init(selectedCommentIndex: Binding<Int?>, post: Binding<Post>) {
-        self._selectedCommentIndex = selectedCommentIndex
-        self._post = post
-    }
-
+    
     func onAddReply() {
-        if selectedCommentIndex != nil {
-            let newReply = Reply(id: UUID(), authorName: "You", replyContent: replyText)
-            post.comments.append(newReply)
+        if !replyText.isEmpty {
+            post.addReply(text: replyText)
             showReplyField = false
             replyText = ""
         }
     }
-
+    
     var body: some View {
         VStack {
             VStack(alignment: .leading, spacing: -10) {
-                CommentView(reply: Reply(id: post.id, authorName: post.authorName, replyContent: post.content))
-
+                CommentView(reply: Reply(id: post.id, authorName: post.authorName, replyContent: post.content, timestamp: post.comments.first?.timestamp ?? Date()))
+                
                 HStack(spacing: 20) {
                     HStack(spacing: 3) {
                         Button {
@@ -42,13 +35,12 @@ struct PostCardView: View {
                         }
                         Text("\(post.totalLikes)")
                     }
-
+                    
                     HStack(spacing: 3) {
                         Button(action: {
-                            selectedCommentIndex = 0
                             showReplyField.toggle()
                         }) {
-                            Image(systemName: "message")
+                            Image("reply_button")
                                 .foregroundColor(Color(#colorLiteral(red: 0.5411589146, green: 0.5411903262, blue: 0.990190804, alpha: 1)))
                         }
                         Text("\(post.comments.count)")
@@ -56,8 +48,6 @@ struct PostCardView: View {
                 }
                 .padding(.horizontal, 12)
                 .padding(.vertical, 12)
-
-                
                 
                 if showReplyField {
                     HStack (spacing: 30) {
@@ -69,11 +59,11 @@ struct PostCardView: View {
                                 .foregroundColor(.white)
                                 .shadow(color: Color(#colorLiteral(red: 0.5411589146, green: 0.5411903262, blue: 0.990190804, alpha: 1)), radius: 1)
                                 .overlay(
-                                TextField("Write your reply...", text: $replyText, axis: .vertical)
-                                    .multilineTextAlignment(.leading)
-                                    .lineLimit(2)
-                                    .padding(.horizontal,10)
-                                    .foregroundColor(.black)
+                                    TextField("Write your reply...", text: $replyText, axis: .vertical)
+                                        .multilineTextAlignment(.leading)
+                                        .lineLimit(2)
+                                        .padding(.horizontal,10)
+                                        .foregroundColor(.black)
                                 )
                         }
                         Button(action: {
@@ -85,25 +75,37 @@ struct PostCardView: View {
                     }
                     .padding(.horizontal, 20)
                 }
-
+                
                 if !post.comments.isEmpty {
                     if showAllReplies {
                         CommentsView(
                             comments: post.comments,
                             onReply: { replyText in
-                                let newReply = Reply(id: UUID(), authorName: "You", replyContent: replyText)
+                                let newReply = Reply(id: UUID(), authorName: "You", replyContent: replyText, timestamp: Date())
                                 post.comments.append(newReply)
                             },
                             showAllReplies: $showAllReplies
                         )
                         .padding(.bottom, 20)
                     } else {
-                        Button(action: { showAllReplies.toggle() }) {
-                            Text("Show all replies")
-                                .padding(.top, 10.0)
-                                .padding(.leading, 20.0)
-                                .foregroundColor(Color(#colorLiteral(red: 0.5411589146, green: 0.5411903262, blue: 0.990190804, alpha: 1)))
+                        VStack{
+                            Button(action: {
+                                withAnimation{
+                                    showAllReplies.toggle()
+                                }
+                            }) {
+                                Image("slider")
+                                    
+                                    
+                                    
+                            }.padding(.top, 10.0)
+                            .padding(.leading, 20.0)
+                            .padding(.bottom, 10.0)
+                                
                         }
+                        .frame(maxWidth: .infinity ,alignment: .center)
+                            
+                           
                     }
                 }
             }
@@ -117,9 +119,7 @@ struct PostCardView: View {
 
 struct PostCardView_Previews: PreviewProvider {
     static var previews: some View {
-        let selectedCommentIndex: Binding<Int?> = .constant(0)
-        let post = Post(content: "Sample content", authorName: "John", comments: [], totalLikes: 10)
-        return PostCardView(selectedCommentIndex: selectedCommentIndex, post: .constant(post))
+        let post = Post(content: "Sample content", authorName: "John", comments:[Reply(authorName: "Alice", replyContent: "sample content 2", timestamp: Date())], totalLikes: 10)
+        return PostCardView(post: .constant(post))
     }
 }
-

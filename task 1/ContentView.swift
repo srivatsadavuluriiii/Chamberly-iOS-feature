@@ -6,12 +6,13 @@ struct ContentView: View {
     @State private var newCommentText: String = ""
     @State private var replyText = "default"
     @State private var isLiked: Bool = false
-    @State private var selectedCommentIndex: Int?
-    @State var likes: Int = 20
-
+    @State private var likes: Int = 20
+    @State private var showAllReplies: Bool = false
+    
     var body: some View {
         ZStack {
             Color(#colorLiteral(red: 0.968626678, green: 0.9686279893, blue: 0.9987213016, alpha: 1)).edgesIgnoringSafeArea(.all)
+            
             VStack {
                 Text("Swipe right to start chatting!")
                     .font(.footnote)
@@ -27,8 +28,8 @@ struct ContentView: View {
                             .fontWeight(.semibold)
                     )
                 
-                HStack (spacing: 20){
-                    HStack(spacing: 5){
+                HStack(spacing: 20) {
+                    HStack(spacing: 5) {
                         Button {
                             isLiked.toggle()
                             if isLiked {
@@ -45,7 +46,7 @@ struct ContentView: View {
                             .foregroundColor(.red)
                     }
                     
-                    HStack (spacing: 5){
+                    HStack(spacing: 5) {
                         Image(systemName: "message")
                             .foregroundColor(Color(#colorLiteral(red: 0.5411589146, green: 0.5411903262, blue: 0.990190804, alpha: 1)))
                         Text("\(messageFieldVM.posts.count)")
@@ -54,18 +55,36 @@ struct ContentView: View {
                 }
                 
                 ScrollView(.vertical, showsIndicators: false) {
-                    ForEach(Array(messageFieldVM.posts.values), id: \.self) { post in
-                        PostCardView(selectedCommentIndex: $selectedCommentIndex, post: .constant(post))
+                    ForEach(Array(messageFieldVM.posts.values.sorted(by: { $1.timestamp < $0.timestamp }).prefix(showAllReplies ? messageFieldVM.posts.count : 5)), id: \.self) { post in
+                        PostCardView(post: .constant(post))
                             .padding(.horizontal)
                             .padding(.vertical, 5)
                             .onTapGesture {
-                                selectedCommentIndex = 1
-                                replyText = post.authorName 
+                                replyText = post.authorName
                             }
                     }
+                    
+                    if !showAllReplies && messageFieldVM.posts.count > 5 {
+                        Button(action: {
+                            showAllReplies.toggle()
+                        }, label: {
+                            Text("Load More Thoughts")
+                                .foregroundColor(Color(#colorLiteral(red: 0.5411589146, green: 0.5411903262, blue: 0.990190804, alpha: 1)))
+                        })
+//                        .padding()
+                    }
                 }
-
                 .frame(width: 350.0)
+                
+                if showAllReplies {
+                    Button(action: {
+                        showAllReplies.toggle()
+                    }, label: {
+                        Text("Hide Thoughts")
+                            .foregroundColor(Color(#colorLiteral(red: 0.5411589146, green: 0.5411903262, blue: 0.990190804, alpha: 1)))
+                    })
+                    .padding()
+                }
                 
                 RoundedRectangle(cornerRadius: 20)
                     .fill(.white)
@@ -100,7 +119,7 @@ struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         let viewModel = MessageFieldViewModel()
         viewModel.setupPosts()
-        
+
         return ContentView()
             .environmentObject(viewModel)
     }

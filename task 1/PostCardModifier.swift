@@ -13,7 +13,7 @@ struct PostCardModifier: ViewModifier {
                 if isReplying {
                     TextField("Add a reply", text: $replyText)
                         .onSubmit {
-                            _ = Reply(authorName: "Srivatsa", replyContent: replyText)
+                            _ = Reply(authorName: "Srivatsa", replyContent: replyText, timestamp: Date())
                             isReplying = false
                             replyText = ""
                         }
